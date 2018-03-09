@@ -1,6 +1,6 @@
-'use strict'
 #!/usr/bin/env node
 
+'use strict'
 const program = require('commander')
 const mkdirp = require('mkdirp')
 const os = require('os')
@@ -12,6 +12,10 @@ const sortedObject = require('sorted-object')
 const _exit = process.exit
 const eol = os.EOL
 const pkg = require('../package.json')
+const MODE_0666 = parseInt('0666', 8)
+const MODE_0755 = parseInt('0755', 8)
+
+
 
 const version = pkg.version
 
@@ -99,29 +103,32 @@ function createApplication(app_name, path) {
   let app = loadTemplate('js/app.js')
   let www = loadTemplate('js/www')
   let users = loadTemplate('js/routes/users.js')
+  let index = loadTemplate('js/routes/index.js')
   let security = loadTemplate('js/routes/security.js')
   let passportConfig = loadTemplate('js/configs/passport-config.js')
   let middleware = loadTemplate('js/middleware/auth.js')
+
 
   mkdir(path, function(){
 
     mkdir(`${path}/routes`, function(){
       write(`${path}/routes/users.js`, users)
-      wriet(`${path}/routes/security.js`, security )
+      write(`${path}/routes/index.js`, index)
+      write(`${path}/routes/security.js`, security )
       complete()
     })
 
     // package.json
     let pkg = {
-        name: app_name
-      , version: '0.0.0'
-      , private: true
-      , scripts: {   
-        "lint": "standard",
+      name: app_name,
+      version: '0.0.0',
+      private: true,
+      scripts: {
+        "lint": "standard --fix",
         "start-dev": `DEBUG=:${app_name}* nodemon server.js`,
         "start": "NODE_ENV=production node ./bin/www",
-        "test": `DEBUG=${app_name}:* ava tests/ --verbose` 
-      }, 
+        "test": `DEBUG=${app_name}:* ava tests/ --verbose`
+      },
       "devDependencies": {
         "ava": "^0.23.0",
         "nodemon": "^1.12.1",
@@ -143,7 +150,6 @@ function createApplication(app_name, path) {
         "request": "^2.83.0",
         "request-promise": "^4.2.2",
       }
- 
     }
 
 
@@ -155,15 +161,15 @@ function createApplication(app_name, path) {
     write(`${path}/app.js`, app)
     mkdir(`${path}/bin`, function(){
       www = www.replace('{name}', app_name)
-      write(path + '/bin/www', www, 0755)
+      write(path + '/bin/www', www, MODE_0755)
       complete()
     })
     mkdir(`${path}/middleware`, function(){
-      write(`${path}/middleware/auth.js`, middleware, 0755)
+      write(`${path}/middleware/auth.js`, middleware)
       complete()
     })
     mkdir(`${path}/configs`, function(){
-      write(`${path}/consfigs/passport-config.js`, passportConfig, 0755)
+      write(`${path}/configs/passport-config.js`, passportConfig)
       complete()
     })
 
@@ -250,10 +256,10 @@ function main() {
   var appName = path.basename(path.resolve(destinationPath))
 
   // Template engine
-  program.template = 'jade'
-  if (program.ejs) program.template = 'ejs'
-  if (program.hogan) program.template = 'hjs'
-  if (program.hbs) program.template = 'hbs'
+  // program.template = 'jade'
+  // if (program.ejs) program.template = 'ejs'
+  // if (program.hogan) program.template = 'hjs'
+  // if (program.hbs) program.template = 'hbs'
 
   // Generate application
   emptyDirectory(destinationPath, function (empty) {
@@ -280,10 +286,11 @@ function main() {
  * @param {String} str
  */
 
-function write(path, str, mode) {
-  fs.writeFileSync(path, str, { mode: mode || 0666 })
+function write (path, str, mode) {
+  fs.writeFileSync(path, str, { mode: mode || MODE_0666 })
   console.log('   \x1b[36mcreate\x1b[0m : ' + path)
 }
+
 
 /**
  * Mkdir -p.
@@ -292,10 +299,10 @@ function write(path, str, mode) {
  * @param {Function} fn
  */
 
-function mkdir(path, fn) {
-  mkdirp(path, 0755, function(err){
+function mkdir (path, fn) {
+  mkdirp(path, MODE_0755, function (err) {
     if (err) throw err
-    console.log('   \033[36mcreate\033[0m : ' + path)
+    console.log('   \x1b[36mcreate\x1b[0m : ' + path)
     fn && fn()
   })
 }
