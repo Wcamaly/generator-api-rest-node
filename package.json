@@ -22,7 +22,7 @@
   "main": "bin/express-cli.js",
   "preferGlobal": true,
   "bin": {
-    "express": "./bin/express-cli.js"
+    "rest-api": "./bin/express-cli.js"
   },
   "devDependencies": {
     "eslint": "3.19.0",
