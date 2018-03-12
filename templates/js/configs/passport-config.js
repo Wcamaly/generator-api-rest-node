@@ -7,6 +7,7 @@ module.exports = function(passport) {
 
   passport.use(new JsonStrategy(async (username, password, done) => {
 
+    done(null, {username: 'test', id : 1})
     // User Validation 
     // Validate if user valid for example, check to Data Base
     // User.findOne({username: username}, (err, user) => {
@@ -23,7 +24,9 @@ module.exports = function(passport) {
 
   passport.serializeUser(function(user, done) {
     // Serializing User, here save user data for then get again user for example idUser
+    // 
     //done(null, user.idUser);
+  
   })
 
   passport.deserializeUser(async function(id, done) {
@@ -32,6 +35,7 @@ module.exports = function(passport) {
     // if (err) return done(err, null)
     // return done(null, user)
     // })
+    return done (null, {username: 'Test', id : 1})
   })
 
   return passport.initialize()

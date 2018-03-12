@@ -1,6 +1,6 @@
 {
-  "name": "generete-api-rest-node",
-  "version": "1.0.1",
+  "name": "generator-api-res-node",
+  "version": "1.0.2",
   "description": "it's generate app rest node ",
   "repository": {
     "type": "git",

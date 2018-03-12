@@ -11,6 +11,7 @@ const passportConfig = require('./configs/passport-config')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const security = require('./routes/security')
+const middlewareAuth = require('./middleware/auth')
 
 
 const app = asyncify(express())
@@ -35,8 +36,8 @@ app.use(passportConfig(passport))
 app.use(passport.session())
 
 app.use('/', index)
-app.use('/users', users)
 app.use('/security', security)
+app.use('/users',middlewareAuth , users)
 
 // Actualization express not generate Page not found
 app.use('*', function(req, res, next) {

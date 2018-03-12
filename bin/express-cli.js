@@ -107,6 +107,7 @@ function createApplication(app_name, path) {
   let security = loadTemplate('js/routes/security.js')
   let passportConfig = loadTemplate('js/configs/passport-config.js')
   let middleware = loadTemplate('js/middleware/auth.js')
+  let test = loadTemplate('js/tests/securtiy-test.js')
 
 
   mkdir(path, function(){
@@ -148,7 +149,7 @@ function createApplication(app_name, path) {
         "passport": "^0.4.0",
         "passport-json": "^1.2.0",
         "request": "^2.83.0",
-        "request-promise": "^4.2.2",
+        "request-promise": "^4.2.2"
       }
     }
 
@@ -170,6 +171,11 @@ function createApplication(app_name, path) {
     })
     mkdir(`${path}/configs`, function(){
       write(`${path}/configs/passport-config.js`, passportConfig)
+      complete()
+    })
+
+    mkdir(`${path}/tests`, function(){
+      write(`${path}/tests/security-test.js`, test)
       complete()
     })
 

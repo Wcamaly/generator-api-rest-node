@@ -46,7 +46,7 @@ describe('express(1)', function () {
         if (err) return done(err);
         files = parseCreatedFiles(stdout, dir);
         output = stdout;
-        assert.equal(files.length, 13);
+        assert.equal(files.length, 15);
         done();
       });
     });
@@ -156,7 +156,7 @@ describe('express(1)', function () {
       run(dir, ['--git'], function (err, stdout) {
         if (err) return done(err);
         files = parseCreatedFiles(stdout, dir);
-        assert.equal(files.length, 14, 'should have 14 files');
+        assert.equal(files.length, 16, 'should have 16 files');
         done();
       });
     });
