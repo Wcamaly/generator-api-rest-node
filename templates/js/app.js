@@ -17,7 +17,6 @@ const middlewareAuth = require('./middleware/auth')
 const app = asyncify(express())
 
 // secret to session
-
 const secret = process.env.SECRET_SESSION || 'kasjdhaskjdhaskj'
 
 

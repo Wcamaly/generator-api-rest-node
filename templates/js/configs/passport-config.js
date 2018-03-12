@@ -22,14 +22,14 @@ module.exports = function(passport) {
     // })
   }))
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser((user, done) => {
     // Serializing User, here save user data for then get again user for example idUser
     // 
     //done(null, user.idUser);
   
   })
 
-  passport.deserializeUser(async function(id, done) {
+  passport.deserializeUser(async (id, done) => {
     // Deserializing user. Here take id serialize and look for user again 
     // User.findById(id, (err, user) => {
     // if (err) return done(err, null)

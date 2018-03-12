@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
+/* It is necessary to have authorization */
 
-/* GET users listing. */
-router.post('/getUsers', function(req, res, next) {
+
+
+/* POST users listing. */
+router.post('/getUsers', (req, res, next) => {
   res.send('respond with a resource');
 });
 
